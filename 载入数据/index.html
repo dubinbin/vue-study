@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="format-detection" content="email=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="https://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css">
+	<title>账单详情</title>
+	<style>
+	.hh_bill_text p{
+		font-size: 0.8em;
+	}
+	.hh_bill_text{
+		display: inline-table;
+	}
+	.hh_bill_text span{
+		font-size: 0.8em;
+	}
+	.hh_list_right{
+		font-size: 0.8em;
+	}
+	.hh_bill_title{
+		text-align: center;
+	    color: #3a3a3a;
+	    padding-top: 4%;
+	    font-weight: 600;
+	    font-size: 1em;
+	}
+	.hh_bill_right{
+		color: #fff;
+	}
+	.hh_bill_infoTitle{
+		background: #f64141;
+		position: relative;
+		width: 76%;
+		padding: 4px 17px 4px 17px;
+		color: #fff;
+		margin: 0 auto;
+	}
+	.hh_bill_info{
+		margin:0 auto;
+		position: relative;
+		width: 76%;
+	}
+	.weui_cell:before{
+		width: 92%;
+	}
+	.hh_banli{
+		width: 60px;
+	    display: block;
+	    position: absolute;
+	    height: 42px;
+	    background: url("img/banli.png");
+	    bottom: 0%;
+	    left: 2%;
+	    background-size: 102%;
+	    overflow: hidden;
+	}
+	</style>
+</head>
+
+<body>
+ <div id="customer">
+	<div class="weui_cells" style="margin-top:0" v-for="bio in list">
+	  <div class="weui_cell">
+	    <div class="weui_cell_bd weui_cell_primary hh_bill_text">
+	      <p>手机号码：</p>
+	    </div>
+	    <div class="weui_cell_ft hh_list_right" style="color: #049bfb"> 
+	      {{bio.phoneNum}}
+	    </div>
+	  </div>
+	  <div class="weui_cell">
+	    <div class="weui_cell_bd weui_cell_primary hh_bill_text">
+	      <p>客户姓名：</p>
+	    </div>
+	    <div class="weui_cell_ft hh_list_right">
+	      {{bio.customerName}}
+	    </div>
+	  </div>
+	  <div class="weui_cell">
+	    <div class="weui_cell_bd weui_cell_primary hh_bill_text">
+	      <p>计费周期：</p>
+	    </div>
+	    <div class="weui_cell_ft hh_list_right">
+	      <span id="dateBegin">{{bio.dataBegin}}</span> 至 <span id="dateEnd">{{bio.dataEnd}}</span>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+ <div id="biolist">
+	<div class="hh_bill_title">账单详情</div>
+	  <div class="weui_cells" style="background: #f64141;margin-top: 0.5em;">
+	   <div class="weui_cell hh_bill_infoTitle">
+	    <div class="weui_cell_bd weui_cell_primary hh_list_text">
+	      <p>费用名称</p>
+	    </div>
+	    <div class="weui_cell_ft hh_bill_right">
+	      金额/元
+	    </div>
+	  </div>
+	</div>
+
+	<div class="weui_cells" style="margin-top: 0.5em;">
+	  <div class="weui_cell hh_bill hh_bill_info" v-for="item in item">
+	    <div class="weui_cell_bd weui_cell_primary hh_list_text">
+	      <p>{{item.item}}</p>
+	    </div>
+	    <div class="weui_cell_ft hh_list_right">
+	      {{item.howmoney}}
+	    </div>
+	  </div>
+	</div>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/vue.resource.min.js"></script>
+<script src="js/bioinfo.js"></script>
+</body>
+</html>
