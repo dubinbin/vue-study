@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div id="app">
+    <thead>
+     <template v-if="list.length">
+    <table id="cartTable">
+        <tr>
+            <th></th>
+            <th>商品</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="shop in list">
+            <td class="checkbox"><input class="check-one check" type="checkbox" v-model="shop.selected" ></td>
+            <td class="goods"><img v-bind:src="shop.pic" alt=""/><span>{{shop.name}}</span></td>
+            <td class="price">{{shop.price}}</td>
+            <td class="count">
+            <span @click="reduceNum($index)" class="reduce">-</span>
+            <input class="countInput" type="text" v-model="shopNum" value="{{shop.num}}" @keyup="Typekeyup()"/>
+            <span @click="addNum($index)" class="add">+</span>
+            </td>
+            <td class="subtotal">{{shop.price * shop.num}}</td>
+            <td class="operation"><span class="delete" @click="delShop(shop)">删除</span></td>
+        </tr>
+    </tbody>
+</table>
+</template>
+
+  <template v-else>
+   <div class="jumbotron">
+    <h1>您的购物车空了</h1>
+    <p>是否去重新挑选</p>
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">重新挑选</a></p>
+   </div>
+  </template>
+
+
+<div class="foot" id="foot">
+    <label class="fl select-all"><input type="checkbox" class="check-all check"  v-model="allSelected"/>&nbsp;全选</label>
+    <div class="fr closing">结 算</div>
+    <div class="fr total">合计：￥<span id="priceTotal">{{totalPrice}}</span></div>
+    <div class="fr selected" id="selected">已选商品<span id="selectedTotal">{{SelectShopNum}}</span>件</div>
+</div>
+</div>
+<script src="js/vue.js"></script>
+<script>
+    var shop = new Vue({
+    el:'#app',
+    data:{
+        list:[{
+            pic:'https://img14.360buyimg.com/n7/jfs/t3535/364/272670377/297093/187de6d4/5804c9d2Nfd90538a.jpg',
+            selected:true,
+            name:'荣耀 畅玩6X 4GB 32GB 全网通4G手机',
+            num:'1',
+            price:'1799.00'
+        },{
+           pic:"https://img13.360buyimg.com/n7/jfs/t3901/221/932877231/164523/7a21d86a/5861fa68N4c7e435e.jpg",
+           selected:true,
+           name:"一加手机3T (A3010) 6GB+64GB 枪灰版 全网通 双卡双待 移动联通电信4G手机",
+           num:"1",
+           price:"2699.00"
+        },{
+           pic:"https://img12.360buyimg.com/n7/jfs/t3205/222/4061036739/100592/fcec060e/57ff58e6Ne3a0d9c1.jpg",
+           selected:true,
+           name:"OPPO R9s 全网通4G+64G 双卡双待手机 玫瑰金 前后1600万像素，3010mAh大电",
+           num:"1",
+           price:"2799.00"
+        },{
+            pic:"https://img11.360buyimg.com/n7/jfs/t3073/196/1629389764/137495/265ddb40/57d11b9cNad700eeb.jpg",
+            selected:true,
+            name:"Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机",
+            num:"1",
+            price:"7199.00"
+        }],
+        checkShop:[],
+        shopNum:''
+    },
+    methods:{
+        delShop:function(shop){
+            this.list.$remove(shop);
+        },
+        reduceNum:function($index){
+            var self = this.list[$index]
+            if(self.num>=2){
+              self.num --;             
+            }
+        },
+        addNum:function($index){
+            var self = this.list[$index];
+            self.num++;
+        },
+        //这里功能待改
+        Typekeyup:function(){
+            var self = this.list[$index];
+            self.num = this.shopNum;
+        }
+    },
+    computed:{
+        totalPrice:function(){
+            var result = 0;
+            for(var i=0;i<this.list.length;i++){
+                var self = this.list[i];
+                if(self.selected === true){
+                  result += self.num * self.price;   
+                }
+            };
+            return result.toFixed(2);
+        },
+        SelectShopNum:function(){
+            var SelectShopNum =0 ;
+            for(var i=0;i<this.list.length;i++){
+                var self = this.list[i];
+                if(this.list[i].selected ===true){
+                   SelectShopNum += parseInt(self.num);
+                }
+
+            }
+            return parseInt(SelectShopNum);
+        },
+        allSelected:{
+            get:function() {
+                for (var i= 0;i<this.list.length;i++) {
+                    if (this.list[i].selected === false) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            set:function(val) {
+                for (var i= 0;i<this.list.length;i++) {
+                    this.list[i].selected = val;
+                }
+            }
+       }
+    }
+})
+</script>
+</body>
+</html>
